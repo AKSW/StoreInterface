@@ -11,6 +11,6 @@ class Quad extends Statement
 
     public function getGraph()
     {
-        $this -> graphUri;
+        return $this -> graphUri;
     }
 }
