@@ -10,6 +10,9 @@
         "squizlabs/php_codesniffer": "dev-master"
     },
     "autoload": {
-        "psr-4": {"Saft\\StoreInterface\\": "src/"}
+        "psr-4": {
+            "Saft\\StoreInterface\\": "src/",
+            "Saft\\StoreInterface\\Tests\\": "tests/"
+        }
     }
 }
