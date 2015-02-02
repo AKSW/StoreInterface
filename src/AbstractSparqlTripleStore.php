@@ -1,16 +1,57 @@
 <?php
 namespace Saft\StoreInterface;
 
-
-abstract class AbstractSparqlTripleStore implements StoreInterface {
-    public function delete($a)
+abstract class AbstractSparqlTripleStore implements StoreInterface
+{
+    public function createStatement($subject, $predicate, $object, $graphUri = null)
     {
-        $this->query("delete " . $a);
+        if ($subject != null && $predicate != null &&
+            $object != null && $graphUri != null) {
+            $quad = new Quad($subject, $predicate, $object, $graphUri);
+            return $quad;
+        } elseif ($subject != null && $predicate != null &&
+            $object != null && $graphUri == null) {
+            $triple = new Triple($subject, $predicate, $object);
+            return $triple;
+        } else {
+            //@TODO
+        }
+    }
+
+    public function addMultipleStatements(array $Statements, $graphUri = null)
+    {
+
+    }
+
+    public function deleteMultipleStatements(array $Statements, $graphUri = null)
+    {
+
+    }
+
+    public function getMatchingStatements($Statement, $graphUri = null)
+    {
+
+    }
+    
+    public function hasMatchingStatement($Statement, $graphUri = null)
+    {
+
+    }
+    
+    public function match($Statement, $graphUri = null)
+    {
+
+    }
+
+    public function whatKindOfInstanz()
+    {
+        //@TODO
+        return get_class($this);
     }
 
     public function get($statement)
     {
-
+        //@TODO
         /*
          * Check if $statement is Triple or Quad
          */
@@ -39,8 +80,8 @@ abstract class AbstractSparqlTripleStore implements StoreInterface {
         $this->query("ask " . $a);
     }
 
-    public function add($a) {
+    public function add($a)
+    {
         $this->query("insert into " . $a);
     }
-    public abstract function query($a);
 }
