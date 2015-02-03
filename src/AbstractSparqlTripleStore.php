@@ -3,6 +3,11 @@ namespace Saft\StoreInterface;
 
 abstract class AbstractSparqlTripleStore implements StoreInterface
 {
+    public function te()
+    {
+        $q = "da";
+        return $q;
+    }
     public function createStatement($subject, $predicate, $object, $graphUri = null)
     {
         if ($subject != null && $predicate != null &&
@@ -20,7 +25,22 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
 
     public function addMultipleStatements(array $Statements, $graphUri = null)
     {
-
+        foreach ($Statements as &$statement) {
+            $query = "";
+            $construct = "";
+            if (is_subclass_of($st, 'Statement')) {
+                $construct = "construct
+                    {<" . $st.getSubject() ."> ". $st.getPredicate() ." " . $st.getObject() . "}
+                    WHERE { }";
+            }
+            if ($st instanceof Triple) {
+                //@TODO use default Graph or $graphUri
+            } elseif ($st instanceof Quad) {
+                //@TODO
+            }
+            $this -> sparqlQuery($query);
+        }
+        unset($statement);
     }
 
     public function deleteMultipleStatements(array $Statements, $graphUri = null)
@@ -28,9 +48,29 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
 
     }
 
-    public function getMatchingStatements($Statement, $graphUri = null)
+    public function getMatchingStatements(array $Statements, $graphUri = null)
     {
+        $query = "Select * \n{\n";
 
+        foreach ($Statements as &$st) {
+            if ($st instanceof Statement) {
+                $con = "";
+                if ($st instanceof Triple) {
+                    //@TODO use default Graph or $graphUri
+                } elseif ($st instanceof Quad) {
+                    $con = "Graph " . $st->getGraph();
+                }
+                
+                $con = $con . " {<" . $st->getSubject() ."> ". $st->getPredicate()
+                    ." " . $st->getObject() . "}";
+                
+                $query = $query . $con ."\n";
+            }
+        }
+        unset($statement);
+        $query = $query . "}";
+        return $query;
+        //$this -> sparqlQuery($query);
     }
     
     public function hasMatchingStatement($Statement, $graphUri = null)
@@ -49,14 +89,14 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
         return get_class($this);
     }
 
-    public function get($statement)
+    /*public function get($statement)
     {
         //@TODO
         /*
          * Check if $statement is Triple or Quad
          */
 
-
+/*
         $s = $statement->getSubject();
         if ($s == null) {
             $s = '?s';
@@ -74,8 +114,8 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
         /*
          * maybe convert $result
          */
-    }
-    public function has($a)
+    /*}*/
+    /*public function has($a)
     {
         $this->query("ask " . $a);
     }
@@ -83,5 +123,5 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
     public function add($a)
     {
         $this->query("insert into " . $a);
-    }
+    }*/
 }
