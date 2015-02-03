@@ -1,23 +1,8 @@
 <?php
 namespace Saft\StoreInterface;
 
-abstract class AbstractPatternFragmentTripleStore implements StoreInterface
+abstract class AbstractPatternFragmentTripleStore extends StoreInterface
 {
-    public function createStatement($subject, $predicate, $object, $graphUri = null)
-    {
-        if ($subject != null && $predicate != null &&
-            $object != null && $graphUri != null) {
-            $quad = new Quad($subject, $predicate, $object, $graphUri);
-            return $quad;
-        } elseif ($subject != null && $predicate != null &&
-            $object != null && $graphUri == null) {
-            $triple = new Triple($subject, $predicate, $object);
-            return $triple;
-        } else {
-            //@TODO
-        }
-    }
-
     public function whatKindOfInstanz()
     {
         //@TODO

@@ -1,19 +1,19 @@
 <?php
 namespace Saft\StoreInterface;
 
-interface StoreInterface
+abstract class StoreInterface
 {
     /**
     * Returns array with graphUri's which are available.
     * @return array, where the key is the URI of a graph.
     */
-    public function getAvailableGraphs();
+    abstract public function getAvailableGraphs();
 
     /**
     * Get default graph. A Graph holds a set of 1 or more Triples.
     * @return string graphUri for default graph.
     */
-    public function getDefaultGraph();
+    abstract public function getDefaultGraph();
 
     /**
     * Create a Statement-Object.
@@ -25,7 +25,20 @@ interface StoreInterface
     * @param string $object (IRI or Literal)
     * @return Statement
     */
-    public function createStatement($subject, $predicate, $object, $graphUri = null);
+    public function createStatement($subject, $predicate, $object, $graphUri = null)
+    {
+        if ($subject != null && $predicate != null &&
+            $object != null && $graphUri != null) {
+            $quad = new Quad($subject, $predicate, $object, $graphUri);
+            return $quad;
+        } elseif ($subject != null && $predicate != null &&
+            $object != null && $graphUri == null) {
+            $triple = new Triple($subject, $predicate, $object);
+            return $triple;
+        } else {
+            //@TODO
+        }
+    }
 
     /**
     * Adds multiple Statements to graph specified by $graphUri.
@@ -33,7 +46,7 @@ interface StoreInterface
     * @param array  $Statements
     * @param string $graphUri, need if Statement is a triple
     */
-    public function addMultipleStatements(array $Statements, $graphUri = null);
+    abstract public function addMultipleStatements(array $Statements, $graphUri = null);
 
     /**
     * Removes all given Statements from a graph specified by $graphUri.
@@ -41,7 +54,7 @@ interface StoreInterface
     * @param array $Statements
     * @param string $graphUri, need if Statement is a triple
     */
-    public function deleteMultipleStatements(array $Statements, $graphUri = null);
+    abstract public function deleteMultipleStatements(array $Statements, $graphUri = null);
 
     /**
     *
@@ -50,7 +63,7 @@ interface StoreInterface
     *
     * @return array Statements
     */
-    public function getMatchingStatements($Statement, $graphUri = null);
+    abstract public function getMatchingStatements(array $Statements, $graphUri = null);
     
     /**
     * @param $Statement
@@ -58,7 +71,7 @@ interface StoreInterface
     *
     * @return boolean
     */
-    public function hasMatchingStatement($Statement, $graphUri = null);
+    abstract public function hasMatchingStatement($Statement, $graphUri = null);
 
     /**
     * This method returns all those Statements in the given graph (specified by $graphUri)
@@ -71,18 +84,18 @@ interface StoreInterface
     * @param string $graphUri, need if Statement is a triple
     *
     */
-    public function match($Statement, $graphUri = null);
+    abstract public function match($Statement, $graphUri = null);
 
-    public function whatKindOfInstanz();
+    abstract public function whatKindOfInstanz();
 
-    public function getStoreInformation();
+    abstract public function getStoreInformation();
 
     /**
     * Retrun wich sparql-feature are supported.
     * @return string with with permitted Feature's: Select, Construct,
     * Ask, Describe.
     */
-    public function featureSupported();
+    abstract public function featureSupported();
 
     /**
     * @param string $query A string containing a sparql query
@@ -95,5 +108,5 @@ interface StoreInterface
     *
     * @return mixed Returns a result depending on the query
     */
-    public function sparqlQuery($query);
+    abstract public function sparqlQuery($query);
 }
