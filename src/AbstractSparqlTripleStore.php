@@ -3,62 +3,83 @@ namespace Saft\StoreInterface;
 
 abstract class AbstractSparqlTripleStore extends StoreInterface
 {
-    public function addMultipleStatements(array $Statements, $graphUri = null)
+    public function addMultipleStatements(array $Statements, $graphUri = null, array $options = array())
     {
-        foreach ($Statements as &$statement) {
-            $query = "";
-            $construct = "";
-            if (is_subclass_of($st, 'Statement')) {
-                $construct = "construct
-                    {<" . $st.getSubject() ."> ". $st.getPredicate() ." " . $st.getObject() . "}
-                    WHERE { }";
-            }
-            if ($st instanceof Triple) {
-                //@TODO use default Graph or $graphUri
-            } elseif ($st instanceof Quad) {
-                //@TODO
-            }
-            $this -> sparqlQuery($query);
-        }
-        unset($statement);
-    }
-
-    public function deleteMultipleStatements(array $Statements, $graphUri = null)
-    {
-
-    }
-
-    public function getMatchingStatements(array $Statements, $graphUri = null)
-    {
-        $query = "Select * \n{\n";
+        $query = "Insert DATA\n"
+            . "{\n";
 
         foreach ($Statements as &$st) {
             if ($st instanceof Statement) {
-                $con = "";
+                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
+                    $st->getObject(true) . ".";
+
                 if ($st instanceof Triple) {
                     //@TODO use default Graph or $graphUri
                 } elseif ($st instanceof Quad) {
-                    $con = "Graph " . $st->getGraph();
+                    $con = "Graph :" . $st->getGraph() . " {" . $con . "}";
                 }
-                
-                $con = $con . " {<" . $st->getSubject() ."> ". $st->getPredicate()
-                    ." " . $st->getObject() . "}";
-                
+      
                 $query = $query . $con ."\n";
             }
         }
         unset($statement);
         $query = $query . "}";
+        $this -> sparqlQuery($query);
         return $query;
-        //$this -> sparqlQuery($query);
+    }
+
+    public function deleteMultipleStatements(array $Statements, $graphUri = null)
+    {
+        $query = "Delete DATA\n"
+            . "{\n";
+
+        foreach ($Statements as &$st) {
+            if ($st instanceof Statement) {
+                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
+                    $st->getObject(true) . ".";
+
+                if ($st instanceof Triple) {
+                    //@TODO use default Graph or $graphUri
+                } elseif ($st instanceof Quad) {
+                    $con = "Graph :" . $st->getGraph() . " {" . $con . "}";
+                }
+      
+                $query = $query . $con ."\n";
+            }
+        }
+        unset($statement);
+        $query = $query . "}";
+        $this -> sparqlQuery($query);
+        return $query;
+    }
+
+    public function getMatchingStatements(array $Statements, $graphUri = null, array $options = array())
+    {
+        $query = "Select * \n"
+            ."WHERE\n"
+            . "{\n";
+
+        foreach ($Statements as &$st) {
+            if ($st instanceof Statement) {
+                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
+                    $st->getObject(true) . ".";
+
+                if ($st instanceof Triple) {
+                    //@TODO use default Graph or $graphUri
+                } elseif ($st instanceof Quad) {
+                    $con = "Graph :" . $st->getGraph() . " {" . $con . "}";
+                }
+      
+                $query = $query . $con ."\n";
+            }
+        }
+        unset($statement);
+        $query = $query . "}";
+        $this -> sparqlQuery($query);
+        return $query;
     }
     
     public function hasMatchingStatement($Statement, $graphUri = null)
-    {
-
-    }
-    
-    public function match($Statement, $graphUri = null)
     {
 
     }

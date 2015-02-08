@@ -25,30 +25,44 @@ abstract class Statement
 
     /**
      * Return Statements subject.
+     * @param boolean $opt, true for output in sparqlformat
      * @return string
      */
-    public function getSubject()
+    public function getSubject($opt = false)
     {
-        return $this -> getCorrectFormat($this -> subject, 's');
+        if ($opt) {
+            return $this -> getSparqlFormat($this -> subject, 's');
+        } else {
+            return $this -> subject;
+        }
     }
 
     /**
      * Return Statements predicate
+     * @param boolean $opt, true for output in sparqlformat
      * @return string
      */
-    public function getPredicate()
+    public function getPredicate($opt = false)
     {
-        return $this -> getCorrectFormat($this -> predicate, 'p');
+        if ($opt) {
+            return $this -> getSparqlFormat($this -> predicate, 'p');
+        } else {
+            return $this -> predicate;
+        }
     }
 
     /**
      * Return Statements object.
+     * @param boolean $opt, true for output in sparqlformat
      * @return string
      */
-    public function getObject()
+    public function getObject($opt = false)
     {
-        //TODO check if uri or String. If String add "" instead of <>
-        return $this -> getCorrectFormat($this -> obj, 'o');
+        if ($opt) {
+            return $this -> getSparqlFormat($this -> obj, 'o');
+        } else {
+            return $this -> obj;
+        }
     }
 
     /**
@@ -59,14 +73,24 @@ abstract class Statement
     abstract public function getGraph();
 
     /**
+    * get triple-variable in sparql-format.
     * Use a free variable if $x is empty or null.
     */
-    private function getCorrectFormat($x, $s)
+    public function getSparqlFormat($x, $s = null)
     {
         if (is_null($x) || $x == '') {
-            return '?' . $s ;
+            if (is_null($s)) {
+                return '?x';
+            } else {
+                return '?' . $s ;
+            }
         } else {
-            return '<' . $x . '>';
+            //TODO check if uri or literal. If literal add "" instead of <>
+            if ($x[0] == '<' || $x[0] == '?') {
+                return $x;
+            } else {
+                return '<' . $x . '>';
+            }
         }
     }
 }

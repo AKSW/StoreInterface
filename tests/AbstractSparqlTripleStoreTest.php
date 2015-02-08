@@ -15,9 +15,6 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateStatement()
     {
-        //@TODO create Statement with too few argumenten
-
-
         $statement1 = $this->store -> createStatement('a1', 'b1', 'c1');
         $statement2 = $this->store -> createStatement('a2', 'b2', 'c2', 'd2');
 
@@ -33,9 +30,28 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
     {
         $query = $this->store -> getMatchingStatements($statements);
         //@TODO
-        $this->assertEquals($query, "Select * \n{\n {<a1> b1 c1}\nGraph d2 {<a2> b2 c2}\n}");
+        $this->assertEquals($query, "Select * \n"
+            ."WHERE\n"
+            . "{\n"
+            . "<a1> <b1> <c1>.\n"
+            ."Graph :d2 {<a2> <b2> <c2>.}\n"
+            ."}");
     }
 
+    /**
+     * @depends testCreateStatement
+     */
+    public function testAddMultipleStatements(array $statements)
+    {
+        $query = $this->store -> addMultipleStatements($statements);
+        //@TODO
+        echo $query;
+        $this->assertEquals($query, "Insert DATA\n"
+            . "{\n"
+            . "<a1> <b1> <c1>.\n"
+            ."Graph :d2 {<a2> <b2> <c2>.}\n"
+            ."}");
+    }
     public function tearDown()
     {
         unset($this->store);
