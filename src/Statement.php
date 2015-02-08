@@ -29,7 +29,7 @@ abstract class Statement
      */
     public function getSubject()
     {
-        return $this -> subject;
+        return $this -> getCorrectFormat($this -> subject, 's');
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class Statement
      */
     public function getPredicate()
     {
-        return $this -> predicate;
+        return $this -> getCorrectFormat($this -> predicate, 'p');
     }
 
     /**
@@ -47,7 +47,8 @@ abstract class Statement
      */
     public function getObject()
     {
-        return $this -> obj;
+        //TODO check if uri or String. If String add "" instead of <>
+        return $this -> getCorrectFormat($this -> obj, 'o');
     }
 
     /**
@@ -56,4 +57,16 @@ abstract class Statement
      * @return null or string
      */
     abstract public function getGraph();
+
+    /**
+    * Use a free variable if $x is empty or null.
+    */
+    private function getCorrectFormat($x, $s)
+    {
+        if (is_null($x) || $x == '') {
+            return '?' . $s ;
+        } else {
+            return '<' . $x . '>';
+        }
+    }
 }
