@@ -13,10 +13,9 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
                 $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
                     $st->getObject(true) . ".";
 
-                if ($st instanceof Triple) {
-                    //@TODO use default Graph or $graphUri
-                } elseif ($st instanceof Quad) {
-                    $con = "Graph :" . $st->getGraph() . " {" . $con . "}";
+                $graphUri = $st->getGraph();
+                if (!is_null($graphUri)) {
+                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
                 }
       
                 $query = $query . $con ."\n";
@@ -38,10 +37,9 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
                 $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
                     $st->getObject(true) . ".";
 
-                if ($st instanceof Triple) {
-                    //@TODO use default Graph or $graphUri
-                } elseif ($st instanceof Quad) {
-                    $con = "Graph :" . $st->getGraph() . " {" . $con . "}";
+                $graphUri = $st->getGraph();
+                if (!is_null($graphUri)) {
+                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
                 }
       
                 $query = $query . $con ."\n";
@@ -64,10 +62,9 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
                 $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
                     $st->getObject(true) . ".";
 
-                if ($st instanceof Triple) {
-                    //@TODO use default Graph or $graphUri
-                } elseif ($st instanceof Quad) {
-                    $con = "Graph :" . $st->getGraph() . " {" . $con . "}";
+                $graphUri = $st->getGraph();
+                if (!is_null($graphUri)) {
+                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
                 }
       
                 $query = $query . $con ."\n";

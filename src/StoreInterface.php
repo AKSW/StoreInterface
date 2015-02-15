@@ -22,7 +22,8 @@ abstract class StoreInterface
     * @param string $graphUri
     * @param string $subject (IRI)
     * @param string $predicate (IRI)
-    * @param string $object (IRI or Literal)
+    * @param string $object (IRI, literal or number) if $object should be a literal
+    * use the format '"value"'.
     * @return Statement
     */
     public function createStatement($subject, $predicate, $object, $graphUri = null)

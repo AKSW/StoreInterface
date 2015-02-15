@@ -85,8 +85,7 @@ abstract class Statement
                 return '?' . $s ;
             }
         } else {
-            //TODO check if uri or literal. If literal add "" instead of <>
-            if ($x[0] == '<' || $x[0] == '?') {
+            if (is_int($x) || $x[0] == '<' || $x[0] == '?' || $x[0] == '"') {
                 return $x;
             } else {
                 return '<' . $x . '>';

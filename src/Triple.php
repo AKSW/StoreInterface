@@ -10,7 +10,6 @@ class Triple extends Statement
 
     public function getGraph()
     {
-        //@TODO
-        return $this -> null;
+
     }
 }
