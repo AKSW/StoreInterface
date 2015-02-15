@@ -8,13 +8,16 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
         $query = "Insert DATA\n"
             . "{\n";
 
+        //TODO eliminate redundancy
         foreach ($Statements as &$st) {
             if ($st instanceof Statement) {
                 $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
                     $st->getObject(true) . ".";
 
-                $graphUri = $st->getGraph();
-                if (!is_null($graphUri)) {
+                $graph = $st->getGraph();
+                if (!is_null($graph)) {
+                    $con = "Graph <" . $graph . "> {" . $con . "}";
+                } elseif (!is_null($graphUri)) {
                     $con = "Graph <" . $graphUri . "> {" . $con . "}";
                 }
       
@@ -37,8 +40,10 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
                 $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
                     $st->getObject(true) . ".";
 
-                $graphUri = $st->getGraph();
-                if (!is_null($graphUri)) {
+                $graph = $st->getGraph();
+                if (!is_null($graph)) {
+                    $con = "Graph <" . $graph . "> {" . $con . "}";
+                } elseif (!is_null($graphUri)) {
                     $con = "Graph <" . $graphUri . "> {" . $con . "}";
                 }
       
@@ -53,6 +58,7 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
 
     public function getMatchingStatements(array $Statements, $graphUri = null, array $options = array())
     {
+        //TODO Filter Select
         $query = "Select * \n"
             ."WHERE\n"
             . "{\n";
@@ -62,8 +68,10 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
                 $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
                     $st->getObject(true) . ".";
 
-                $graphUri = $st->getGraph();
-                if (!is_null($graphUri)) {
+                $graph = $st->getGraph();
+                if (!is_null($graph)) {
+                    $con = "Graph <" . $graph . "> {" . $con . "}";
+                } elseif (!is_null($graphUri)) {
                     $con = "Graph <" . $graphUri . "> {" . $con . "}";
                 }
       
@@ -76,9 +84,30 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
         return $query;
     }
     
-    public function hasMatchingStatement($Statement, $graphUri = null)
+    public function hasMatchingStatement($Statements, $graphUri = null)
     {
+        $query = "ASK\n"
+            . "{\n";
 
+        foreach ($Statements as &$st) {
+            if ($st instanceof Statement) {
+                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
+                    $st->getObject(true) . ".";
+
+                $graph = $st->getGraph();
+                if (!is_null($graph)) {
+                    $con = "Graph <" . $graph . "> {" . $con . "}";
+                } elseif (!is_null($graphUri)) {
+                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
+                }
+      
+                $query = $query . $con ."\n";
+            }
+        }
+        unset($statement);
+        $query = $query . "}";
+        $this -> sparqlQuery($query);
+        return $query;
     }
 
     public function whatKindOfInstanz()
@@ -86,40 +115,4 @@ abstract class AbstractSparqlTripleStore extends StoreInterface
         //@TODO
         return get_class($this);
     }
-
-    /*public function get($statement)
-    {
-        //@TODO
-        /*
-         * Check if $statement is Triple or Quad
-         */
-
-/*
-        $s = $statement->getSubject();
-        if ($s == null) {
-            $s = '?s';
-        }
-        $p = $statement->getPredicate();
-        if ($p == null) {
-            $p = '?p';
-        }
-        $o = $statement->getObject();
-        if ($o == null) {
-            $o = '?p';
-        }
-        $result = $this->query("select ?s ?p ?o WHERE {" . $s . " " . $p . " " . $o . ". }");
-
-        /*
-         * maybe convert $result
-         */
-    /*}*/
-    /*public function has($a)
-    {
-        $this->query("ask " . $a);
-    }
-
-    public function add($a)
-    {
-        $this->query("insert into " . $a);
-    }*/
 }

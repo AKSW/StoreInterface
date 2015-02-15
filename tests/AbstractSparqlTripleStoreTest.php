@@ -49,26 +49,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
             . "<a1> <b1> <c1>.\n"
             ."Graph <d2> {<a2> <b2> <c2>.}\n"
             ."}");
-
-        $statement3 = $this->store -> createStatement('a1', 'b1', 42);
-        $statements = array($statement3);
-
-        $query = $this->store -> addMultipleStatements($statements);
-        $this->assertEquals($query, "Insert DATA\n"
-            . "{\n"
-            . "<a1> <b1> 42.\n"
-            ."}");
-
-        $statement4 = $this->store -> createStatement('a1', 'b1', '"John"');
-        $statements = array($statement4);
-
-        $query = $this->store -> addMultipleStatements($statements);
-        $this->assertEquals($query, "Insert DATA\n"
-            . "{\n"
-            . "<a1> <b1> \"John\".\n"
-            ."}");
     }
-
 
     /**
      * @depends testCreateStatement
@@ -81,6 +62,45 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
             . "{\n"
             . "<a1> <b1> <c1>.\n"
             ."Graph <d2> {<a2> <b2> <c2>.}\n"
+            ."}");
+    }
+
+    /**
+     * @depends testCreateStatement
+     */
+    public function testhasMatchingStatement(array $statements)
+    {
+        $query = $this->store -> hasMatchingStatement($statements);
+        //echo $query;
+        $this->assertEquals($query, "ASK\n"
+            . "{\n"
+            . "<a1> <b1> <c1>.\n"
+            ."Graph <d2> {<a2> <b2> <c2>.}\n"
+            ."}");
+    }
+
+    public function testMultipleVariatonOfStatements()
+    {
+        //object is a number
+        $statement1 = $this->store -> createStatement('a1', 'b1', 42);
+        //object is a literal
+        $statement2 = $this->store -> createStatement('a2', 'b2', '"John"');
+        $statements = array($statement1, $statement2);
+
+        $query = $this->store -> addMultipleStatements($statements);
+        $this->assertEquals($query, "Insert DATA\n"
+            . "{\n"
+            . "<a1> <b1> 42.\n"
+            . "<a2> <b2> \"John\".\n"
+            ."}");
+
+        //use the given graphUri
+        $statement3 = $this->store -> createStatement('a3', 'b3', 'c3');
+        $statements = array($statement3);
+        $query = $this->store -> addMultipleStatements($statements, 'graph');
+        $this->assertEquals($query, "Insert DATA\n"
+            . "{\n"
+            ."Graph <graph> {<a3> <b3> <c3>.}\n"
             ."}");
     }
 
