@@ -12,7 +12,7 @@
     "autoload": {
         "psr-4": {
             "Saft\\StoreInterface\\": "src/Store",
-            "Saft\\StoreInterface\\REST": "src/REST",
+            "Saft\\StoreInterface\\Rest\\": "src/Rest",
             "Saft\\StoreInterface\\Tests\\": "tests/"
         }
     }
