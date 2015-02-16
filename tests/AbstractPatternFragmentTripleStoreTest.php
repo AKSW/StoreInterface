@@ -1,15 +1,13 @@
 <?php
 namespace Saft\StoreInterface\Tests;
 
-namespace Saft\StoreInterface;
-
 class AbstractPatternFragmentTripleStoreTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function setUp()
     {
         $this->store = $this -> getMockForAbstractClass(
-            'Saft\StoreInterface\AbstractPatternFragmentTripleStore'
+            '\Saft\StoreInterface\AbstractPatternFragmentTripleStore'
         );
     }
 

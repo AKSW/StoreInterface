@@ -11,9 +11,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Saft\\StoreInterface\\": "src/Store",
+            "Saft\\StoreInterface\\": "src/",
             "Saft\\StoreInterface\\Rest\\": "src/Rest",
             "Saft\\StoreInterface\\Tests\\": "tests/"
-        }
+        },
+        "classmap": [
+            "src"
+        ]
     }
 }
