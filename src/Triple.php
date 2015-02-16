@@ -10,6 +10,6 @@ class Triple extends Statement
 
     public function getGraph()
     {
-
+        return null;
     }
 }
