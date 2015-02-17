@@ -8,24 +8,7 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         $query = "Insert DATA\n"
             . "{\n";
 
-        //TODO eliminate redundancy
-        foreach ($Statements as &$st) {
-            if ($st instanceof Statement) {
-                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
-                    $st->getObject(true) . ".";
-
-                $graph = $st->getGraph();
-                if (!is_null($graph)) {
-                    $con = "Graph <" . $graph . "> {" . $con . "}";
-                } elseif (!is_null($graphUri)) {
-                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
-                }
-      
-                $query = $query . $con ."\n";
-            }
-        }
-        unset($statement);
-        $query = $query . "}";
+        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
         $this -> sparqlQuery($query);
         return $query;
     }
@@ -35,23 +18,7 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         $query = "Delete DATA\n"
             . "{\n";
 
-        foreach ($Statements as &$st) {
-            if ($st instanceof Statement) {
-                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
-                    $st->getObject(true) . ".";
-
-                $graph = $st->getGraph();
-                if (!is_null($graph)) {
-                    $con = "Graph <" . $graph . "> {" . $con . "}";
-                } elseif (!is_null($graphUri)) {
-                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
-                }
-      
-                $query = $query . $con ."\n";
-            }
-        }
-        unset($statement);
-        $query = $query . "}";
+        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
         $this -> sparqlQuery($query);
         return $query;
     }
@@ -63,49 +30,17 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
             ."WHERE\n"
             . "{\n";
 
-        foreach ($Statements as &$st) {
-            if ($st instanceof Statement) {
-                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
-                    $st->getObject(true) . ".";
-
-                $graph = $st->getGraph();
-                if (!is_null($graph)) {
-                    $con = "Graph <" . $graph . "> {" . $con . "}";
-                } elseif (!is_null($graphUri)) {
-                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
-                }
-      
-                $query = $query . $con ."\n";
-            }
-        }
-        unset($statement);
-        $query = $query . "}";
+        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
         $this -> sparqlQuery($query);
         return $query;
     }
     
-    public function hasMatchingStatement($Statements, $graphUri = null)
+    public function hasMatchingStatement(array $Statements, $graphUri = null)
     {
         $query = "ASK\n"
             . "{\n";
 
-        foreach ($Statements as &$st) {
-            if ($st instanceof Statement) {
-                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
-                    $st->getObject(true) . ".";
-
-                $graph = $st->getGraph();
-                if (!is_null($graph)) {
-                    $con = "Graph <" . $graph . "> {" . $con . "}";
-                } elseif (!is_null($graphUri)) {
-                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
-                }
-      
-                $query = $query . $con ."\n";
-            }
-        }
-        unset($statement);
-        $query = $query . "}";
+        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
         $this -> sparqlQuery($query);
         return $query;
     }
@@ -114,5 +49,33 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
     {
         //@TODO
         return get_class($this);
+    }
+
+    /**
+     * [sparqlStatementFormat description]
+     * @param array  $Statements
+    * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
+     * @return string, part of query
+     */
+    private function sparqlStatementFormat($Statements, $graphUri = null)
+    {
+        $query = '';
+        foreach ($Statements as &$st) {
+            if ($st instanceof Statement) {
+                $con = $st->getSubject(true) ." ". $st->getPredicate(true) ." " .
+                    $st->getObject(true) . ".";
+
+                $graph = $st->getGraph();
+                if (!is_null($graph)) {
+                    $con = "Graph <" . $graph . "> {" . $con . "}";
+                } elseif (!is_null($graphUri)) {
+                    $con = "Graph <" . $graphUri . "> {" . $con . "}";
+                }
+      
+                $query = $query . $con ."\n";
+            }
+        }
+        unset($statement);
+        return $query;
     }
 }
