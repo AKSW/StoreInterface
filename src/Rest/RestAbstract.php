@@ -1,8 +1,6 @@
 <?php
 namespace Saft\StoreInterface\Rest;
 
-//namespace Saft\StoreInterface;
-
 /**
  * http://coreymaynard.com/blog/creating-a-restful-api-with-php/
  */
@@ -38,8 +36,9 @@ abstract class RestAbstract
     protected $args = array();
 
     /**
-     * Constructor: __construct
      * Allow for CORS, assemble and pre-process the data
+     * @param [type]                             $request [description]
+     * @param \Saft\StoreInterface\AbstractStore $store   concrete Store.
      */
     public function __construct($request, \Saft\StoreInterface\AbstractStore $store)
     {
@@ -90,12 +89,23 @@ abstract class RestAbstract
         return $this->_response("No Endpoint: $this->endpoint", 404);
     }
 
+    /**
+     * gives response back in json format.
+     * @param  string  $data
+     * @param  integer $status HTTP-Status
+     * @return Returns the JSON representation of $data.
+     */
     private function _response($data, $status = 200)
     {
         header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
         return json_encode($data);
     }
 
+    /**
+     * remove HTML- and PHP Tags.
+     * @param  [type] $data [description]
+     * @return string request-method
+     */
     private function _cleanInputs($data)
     {
         $clean_input = array();
@@ -109,6 +119,11 @@ abstract class RestAbstract
         return $clean_input;
     }
 
+    /**
+     * return HTTP-Status as String
+     * @param  integer $code HTTP-Status
+     * @return string http-status
+     */
     private function _requestStatus($code)
     {
         $status = array(

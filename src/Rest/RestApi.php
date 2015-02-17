@@ -9,25 +9,10 @@ class RestApi extends RestAbstract
     public function __construct($request, $origin, \Saft\StoreInterface\AbstractStore $store)
     {
         parent::__construct($request, $store);
-
-        // Abstracted out for example
-        //$APIKey = new Models\APIKey();
-        //$User = new Models\User();
-
-        if (!array_key_exists('apiKey', $this->request)) {
-            //throw new Exception('No API Key provided');
-        } else if (!$APIKey->verifyKey($this->request['apiKey'], $origin)) {
-            //throw new Exception('Invalid API Key');
-        } else if (array_key_exists('token', $this->request) &&
-             !$User->get('token', $this->request['token'])) {
-            //throw new Exception('Invalid User Token');
-        }
-
-        //$this->User = $User;
     }
 
     /**
-     * Endpoint
+     * Rest-Endpoint
      * @return [type] [description]
      */
     protected function store()
@@ -38,7 +23,8 @@ class RestApi extends RestAbstract
                 $sub = $_POST['subject'];
                 $pred = $_POST['predicate'];
                 $ob = $_POST['object'];
-                return $this->createStatement($sub, $pred, $ob);
+                //pass function createStatement to the store.
+                return $this->store->createStatement($sub, $pred, $ob);
             } else {
                 return "Only accepts POST requests";
             }
@@ -57,10 +43,5 @@ class RestApi extends RestAbstract
         } else {
             return "Wrong input";
         }
-    }
-
-    private function createStatement($subject, $predicate, $object, $graphUri = null)
-    {
-        return $this->store->createStatement($subject, $predicate, $object, $graphUri);
     }
 }

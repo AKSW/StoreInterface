@@ -75,6 +75,9 @@ abstract class AbstractStore
     */
     abstract public function hasMatchingStatement($Statement, $graphUri = null);
 
+    /**
+     * returns which form the instance of the store is. e.g. Sparql-Store or PatternFragment-Store
+     */
     abstract public function whatKindOfInstanz();
 
     abstract public function getStoreInformation();

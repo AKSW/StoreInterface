@@ -1,10 +1,17 @@
 <?php
 namespace Saft\StoreInterface;
 
+/**
+ * Abstract class for RDF- triples and quads.
+ */
 abstract class Statement
 {
     private $subject;
     private $predicate;
+    /**
+     * (URI, literal or number) if $object should be a literal use the format '"value"'
+     * @var string
+     */
     private $obj;
     private $graphUri;
 
@@ -13,7 +20,8 @@ abstract class Statement
      * unless $graphUri is not null, then it is a Quad.
      * @param string $subject
      * @param string $predicate
-     * @param string_type $obj
+     * @param string_type $obj (URI, literal or number) if $object should be a literal
+     * use the format '"value"'.
      * @param string $graphUri
      */
     public function __construct($subject, $predicate, $obj, $graphUri = null)
@@ -73,9 +81,12 @@ abstract class Statement
     abstract public function getGraph();
 
     /**
-    * get triple-variable in sparql-format.
-    * Use a free variable if $x is empty or null.
-    */
+     * get triple-variable in sparql-format.
+     * Use a free variable if $x is empty or null.
+     * @param  string $x subject, predicate or object
+     * @param  string $s Placeholder for free variable.
+     * @return String triple-variable in sparql-format
+     */
     public function getSparqlFormat($x, $s = null)
     {
         if (is_null($x) || $x == '') {
