@@ -9,6 +9,11 @@ namespace Saft\StoreInterface\Rest;
 abstract class RestAbstract
 {
     /**
+     * concrete implementation of StoreInterface.
+     * @var \Saft\StoreInterface\StoreInterface
+     */
+    protected $store;
+    /**
      * Property: method
      * The HTTP method this request was made in, either GET, POST or DELETE
      */
@@ -36,13 +41,15 @@ abstract class RestAbstract
      * Constructor: __construct
      * Allow for CORS, assemble and pre-process the data
      */
-    public function __construct($request)
+    public function __construct($request, \Saft\StoreInterface\StoreInterface $store)
     {
         // allow requests from any origin to be processed by this page
         header("Access-Control-Allow-Orgin: *");
         // allow for any HTTP method to be accepted.
         header("Access-Control-Allow-Methods: *");
         header("Content-Type: application/json");
+
+        $this->store = $store;
 
         $this->args = explode('/', rtrim($request, '/'));
 
@@ -57,7 +64,7 @@ abstract class RestAbstract
             if ($_SERVER['HTTP_X_HTTP_METHOD'] == 'DELETE') {
                 $this->method = 'DELETE';
             } else {
-                throw new Exception("Unexpected Header");
+                throw new \Exception("Unexpected Header");
             }
         }
 

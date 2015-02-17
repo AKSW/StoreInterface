@@ -6,9 +6,9 @@ namespace Saft\StoreInterface\Rest;
  */
 class RestApi extends RestAbstract
 {
-    public function __construct($request, $origin)
+    public function __construct($request, $origin, \Saft\StoreInterface\StoreInterface $store)
     {
-        parent::__construct($request);
+        parent::__construct($request, $store);
 
         // Abstracted out for example
         //$APIKey = new Models\APIKey();
@@ -27,32 +27,40 @@ class RestApi extends RestAbstract
     }
 
     /**
-     * Example of an Endpoint
+     * Endpoint
+     * @return [type] [description]
      */
-    protected function example()
-    {
-        if ($this->method == 'GET') {
-            return "Your name is " . $this->User->name;
-        } else {
-            return "Only accepts GET requests";
-        }
-    }
-
     protected function store()
     {
+        //TODO eliminate redundancy
         if ($this->verb == "statement") {
             if ($this->method == 'POST') {
                 $sub = $_POST['subject'];
                 $pred = $_POST['predicate'];
                 $ob = $_POST['object'];
-                $store = new \Saft\StoreInterface\ExampleSparqlTripleStore();
-                $store->getAvailableGraphs();
-                return "erfolg";
+                return $this->createStatement($sub, $pred, $ob);
             } else {
                 return "Only accepts POST requests";
+            }
+        } if ($this->verb == "statements") {
+            if ($this->method == 'POST') {
+                //TODO
+            } elseif ($this->method == 'GET') {
+                //TODO
+            } elseif ($this->method == 'DELETE') {
+                //TODO
+            }
+        } elseif ($this->verb == "graphs") {
+            if ($this->method == 'GET') {
+                //TODO
             }
         } else {
             return "Wrong input";
         }
+    }
+
+    private function createStatement($subject, $predicate, $object, $graphUri = null)
+    {
+        return $this->store->createStatement($subject, $predicate, $object, $graphUri);
     }
 }
