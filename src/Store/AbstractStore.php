@@ -1,7 +1,7 @@
 <?php
 namespace Saft\StoreInterface;
 
-abstract class StoreInterface
+abstract class AbstractStore
 {
     /**
     * Returns array with graphUri's which are available.

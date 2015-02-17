@@ -7,7 +7,7 @@ class StoreInterfaceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->store = $this -> getMockForAbstractClass(
-            '\Saft\StoreInterface\StoreInterface'
+            '\Saft\StoreInterface\AbstractStore'
         );
     }
 

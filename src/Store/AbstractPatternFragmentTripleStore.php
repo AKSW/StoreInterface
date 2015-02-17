@@ -1,7 +1,7 @@
 <?php
 namespace Saft\StoreInterface;
 
-abstract class AbstractPatternFragmentTripleStore extends StoreInterface
+abstract class AbstractPatternFragmentTripleStore extends AbstractStore
 {
     public function whatKindOfInstanz()
     {

@@ -6,7 +6,7 @@ namespace Saft\StoreInterface\Rest;
  */
 class RestApi extends RestAbstract
 {
-    public function __construct($request, $origin, \Saft\StoreInterface\StoreInterface $store)
+    public function __construct($request, $origin, \Saft\StoreInterface\AbstractStore $store)
     {
         parent::__construct($request, $store);
 

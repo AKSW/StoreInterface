@@ -41,7 +41,7 @@ abstract class RestAbstract
      * Constructor: __construct
      * Allow for CORS, assemble and pre-process the data
      */
-    public function __construct($request, \Saft\StoreInterface\StoreInterface $store)
+    public function __construct($request, \Saft\StoreInterface\AbstractStore $store)
     {
         // allow requests from any origin to be processed by this page
         header("Access-Control-Allow-Orgin: *");
