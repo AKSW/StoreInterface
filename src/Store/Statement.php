@@ -103,4 +103,15 @@ abstract class Statement
             }
         }
     }
+
+    /**
+     * Returns true if subject, predicate and object are not variables, i. e.
+     * subject != ? AND predicate != ? AND object != ?.
+     */
+    public function isConcrete()
+    {
+        return (!is_null($this->subject) && $this->subject != '')
+        && (!is_null($this->predicate) && $this->predicate != '')
+        && (!is_null($this->obj) && $this->obj != '');
+    }
 }
