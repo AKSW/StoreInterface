@@ -10,28 +10,6 @@ abstract class AbstractStore
     abstract public function getAvailableGraphs();
 
     /**
-    * Create a Statement-Object.
-    * Statement-Object is a Triple, unless $graphUri is not null,
-    * then it is a Quad.
-    * @param string $graphUri
-    * @param string $subject (IRI)
-    * @param string $predicate (IRI)
-    * @param string $object (IRI, literal or number) if $object should be a literal
-    * use the format '"value"'.
-    * @return Statement
-    */
-    public function createStatement($subject, $predicate, $object, $graphUri = null)
-    {
-        $statement;
-        if ($graphUri != null) {
-            $statement = new Quad($subject, $predicate, $object, $graphUri);
-        } else {
-            $statement = new Triple($subject, $predicate, $object);
-        }
-        return $statement;
-    }
-
-    /**
     * Adds multiple Statements to graph. If Statement is a Triple graph specified by $graphUri.
     *
     * @param array  $Statements

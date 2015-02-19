@@ -24,7 +24,8 @@ class RestApi extends RestAbstract
                 $pred = $_POST['predicate'];
                 $ob = $_POST['object'];
                 //pass function createStatement to the store.
-                return $this->store->createStatement($sub, $pred, $ob);
+                //return $this->store->createStatement($sub, $pred, $ob);
+                return "";
             } else {
                 return "Only accepts POST requests";
             }

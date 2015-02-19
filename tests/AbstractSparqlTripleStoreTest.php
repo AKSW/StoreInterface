@@ -13,8 +13,8 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateStatement()
     {
-        $statement1 = $this->store -> createStatement('a1', 'b1', 'c1');
-        $statement2 = $this->store -> createStatement('a2', 'b2', 'c2', 'd2');
+        $statement1 = new \Saft\StoreInterface\Triple('a1', 'b1', 'c1');
+        $statement2 = new \Saft\StoreInterface\Quad('a2', 'b2', 'c2', 'd2');
 
         $statements = array($statement1, $statement2);
 
@@ -80,9 +80,9 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
     public function testMultipleVariatonOfStatements()
     {
         //object is a number
-        $statement1 = $this->store -> createStatement('a1', 'b1', 42);
+        $statement1 = new \Saft\StoreInterface\Triple('a1', 'b1', 42);
         //object is a literal
-        $statement2 = $this->store -> createStatement('a2', 'b2', '"John"');
+        $statement2 = new \Saft\StoreInterface\Triple('a2', 'b2', '"John"');
         $statements = array($statement1, $statement2);
 
         $query = $this->store -> addMultipleStatements($statements);
@@ -93,7 +93,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
             ."}");
 
         //use the given graphUri
-        $statement3 = $this->store -> createStatement('a3', 'b3', 'c3');
+        $statement3 = new \Saft\StoreInterface\Triple('a3', 'b3', 'c3');
         $statements = array($statement3);
         $query = $this->store -> addMultipleStatements($statements, 'graph');
         $this->assertEquals($query, "Insert DATA\n"

@@ -13,8 +13,8 @@ class AbstractPatternFragmentTripleStoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateStatement()
     {
-        $statement1 = $this->store -> createStatement('a1', 'b1', 'c1');
-        $statement2 = $this->store -> createStatement('a2', 'b2', 'c2', 'd2');
+        $statement1 = new \Saft\StoreInterface\Triple('a1', 'b1', 'c1');
+        $statement2 = new \Saft\StoreInterface\Quad('a2', 'b2', 'c2', 'd2');
 
         $statements = array($statement1, $statement2);
 
