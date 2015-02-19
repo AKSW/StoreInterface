@@ -10,12 +10,6 @@ abstract class AbstractStore
     abstract public function getAvailableGraphs();
 
     /**
-    * Get default graph. A Graph holds a set of 1 or more Triples.
-    * @return string graphUri for default graph.
-    */
-    abstract public function getDefaultGraph();
-
-    /**
     * Create a Statement-Object.
     * Statement-Object is a Triple, unless $graphUri is not null,
     * then it is a Quad.
