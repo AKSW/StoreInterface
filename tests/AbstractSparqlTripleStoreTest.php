@@ -52,9 +52,9 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testCreateStatement
      */
-    public function testDeleteMultipleStatements(array $statements)
+    public function testDeleteMatchingStatements(array $statements)
     {
-        $query = $this->store -> deleteMultipleStatements($statements);
+        $query = $this->store -> deleteMatchingStatements($statements);
         //echo $query;
         $this->assertEquals($query, "Delete DATA\n"
             . "{\n"

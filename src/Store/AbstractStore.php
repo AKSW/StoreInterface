@@ -23,7 +23,7 @@ abstract class AbstractStore
     * @param array $Statements
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
     */
-    abstract public function deleteMultipleStatements(array $Statements, $graphUri = null);
+    abstract public function deleteMatchingStatements(array $Statements, $graphUri = null);
 
     /**
     * This method returns all those Statements in the given graph which match the statement pattern.

@@ -13,7 +13,7 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         return $query;
     }
 
-    public function deleteMultipleStatements(array $Statements, $graphUri = null)
+    public function deleteMatchingStatements(array $Statements, $graphUri = null)
     {
         $query = "Delete DATA\n"
             . "{\n";
