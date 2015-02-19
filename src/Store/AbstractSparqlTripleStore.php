@@ -8,9 +8,13 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         $query = "Insert DATA\n"
             . "{\n";
 
+        //TODO eliminate redundancy
         $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
-        $this -> sparqlQuery($query);
-        return $query;
+        if (is_callable($this, 'sparqlQuery')) {
+            return $this -> sparqlQuery($query);
+        } else {
+            return $query;
+        }
     }
 
     public function deleteMatchingStatements(array $Statements, $graphUri = null)
@@ -19,8 +23,11 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
             . "{\n";
 
         $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
-        $this -> sparqlQuery($query);
-        return $query;
+        if (is_callable($this, 'sparqlQuery')) {
+            return $this -> sparqlQuery($query);
+        } else {
+            return $query;
+        }
     }
 
     public function getMatchingStatements(array $Statements, $graphUri = null, array $options = array())
@@ -31,8 +38,11 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
             . "{\n";
 
         $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
-        $this -> sparqlQuery($query);
-        return $query;
+        if (is_callable($this, 'sparqlQuery')) {
+            return $this -> sparqlQuery($query);
+        } else {
+            return $query;
+        }
     }
     
     public function hasMatchingStatement(array $Statements, $graphUri = null)
@@ -41,8 +51,11 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
             . "{\n";
 
         $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
-        $this -> sparqlQuery($query);
-        return $query;
+        if (is_callable($this, 'sparqlQuery')) {
+            return $this -> sparqlQuery($query);
+        } else {
+            return $query;
+        }
     }
 
     public function whatKindOfInstanz()
