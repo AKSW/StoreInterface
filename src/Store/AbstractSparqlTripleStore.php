@@ -5,6 +5,13 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
 {
     public function addMultipleStatements(array $Statements, $graphUri = null, array $options = array())
     {
+        foreach ($Statements as &$st) {
+            if ($st instanceof Statement) {
+                if (!$st->isConcrete()) {
+                    //TODO Exception
+                }
+            }
+        }
         $query = "Insert DATA\n"
             . "{\n";
 
