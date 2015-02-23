@@ -1,6 +1,10 @@
 <?php
 namespace Saft\StoreInterface;
 
+/**
+ * @author Viktor Befort <Viktor.Befort@stud.htwk-leipzig.de>
+ * @author Natanael Arndt <arndtn@gmail.com>
+ */
 abstract class Statement
 {
     private $subject;
@@ -13,14 +17,17 @@ abstract class Statement
      * unless $graphUri is not null, then it is a Quad.
      * @param string $subject
      * @param string $predicate
-     * @param string_type $obj
+     * @param string $obj
      * @param string $graphUri
      */
     public function __construct($subject, $predicate, $obj, $graphUri = null)
     {
-        $this -> subject = $subject;
-        $this -> predicate = $predicate;
-        $this -> obj = $obj;
+        if ($graphUri !== null) {
+            $this->graohUri = $graphUri;
+        }
+        $this->subject = $subject;
+        $this->predicate = $predicate;
+        $this->obj = $obj;
     }
 
     /**
@@ -31,9 +38,9 @@ abstract class Statement
     public function getSubject($opt = false)
     {
         if ($opt) {
-            return $this -> getSparqlFormat($this -> subject, 's');
+            return $this->getSparqlFormat($this->subject, 's');
         } else {
-            return $this -> subject;
+            return $this->subject;
         }
     }
 
@@ -45,9 +52,9 @@ abstract class Statement
     public function getPredicate($opt = false)
     {
         if ($opt) {
-            return $this -> getSparqlFormat($this -> predicate, 'p');
+            return $this->getSparqlFormat($this->predicate, 'p');
         } else {
-            return $this -> predicate;
+            return $this->predicate;
         }
     }
 
@@ -59,9 +66,9 @@ abstract class Statement
     public function getObject($opt = false)
     {
         if ($opt) {
-            return $this -> getSparqlFormat($this -> obj, 'o');
+            return $this->getSparqlFormat($this->obj, 'o');
         } else {
-            return $this -> obj;
+            return $this->obj;
         }
     }
 
