@@ -74,6 +74,34 @@ abstract class Statement
     }
 
     /**
+     * Returns true if subject, predicate and object are not variables, i. e.
+     * subject != ? AND predicate != ? AND object != ?.
+     */
+    public function isConcrete()
+    {
+        return (!is_null($this->subject) && $this->subject != '')
+        && (!is_null($this->predicate) && $this->predicate != '')
+        && (!is_null($this->obj) && $this->obj != '');
+    }
+
+    /**
+     * compares this Statement with the given Statement.
+     * Statements are equal if, Subject, Predicate and Object in the SparqlFormat are equal.
+     * @param  Statement $Statement another Statement
+     * @return boolean              true if Statements are equal
+     */
+    public function equal($Statement)
+    {
+        if ($this->getSparqlFormat($this->getSubject()) == $Statement->getSparqlFormat($Statement->getSubject())
+            && $this->getSparqlFormat($this->getPredicate()) == $Statement->getSparqlFormat($Statement->getPredicate())
+            && $this->getSparqlFormat($this->getObject()) == $Statement->getSparqlFormat($Statement->getObject())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Return null if Statement is a Triple.
      * Return graphUri if Statement is a Quad.
      * @return null or string
@@ -87,31 +115,5 @@ abstract class Statement
      * @param  string $s Placeholder for free variable.
      * @return String triple-variable in sparql-format
      */
-    public function getSparqlFormat($x, $s = null)
-    {
-        if (is_null($x) || $x == '') {
-            if (is_null($s)) {
-                return '?x';
-            } else {
-                return '?' . $s ;
-            }
-        } else {
-            if (is_int($x) || $x[0] == '<' || $x[0] == '?' || $x[0] == '"') {
-                return $x;
-            } else {
-                return '<' . $x . '>';
-            }
-        }
-    }
-
-    /**
-     * Returns true if subject, predicate and object are not variables, i. e.
-     * subject != ? AND predicate != ? AND object != ?.
-     */
-    public function isConcrete()
-    {
-        return (!is_null($this->subject) && $this->subject != '')
-        && (!is_null($this->predicate) && $this->predicate != '')
-        && (!is_null($this->obj) && $this->obj != '');
-    }
+    abstract public function getSparqlFormat($x, $s = null);
 }

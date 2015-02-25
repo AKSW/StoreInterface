@@ -38,4 +38,16 @@ class StackTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('?a', $triple3 -> getSubject());
         $this->assertEquals('?a', $triple3 -> getSubject(true));
     }
+
+    public function testStatementEqual()
+    {
+        $triple1 = new \Saft\StoreInterface\Store\Triple('a1', 'b1', 'c1');
+        $this->assertEquals(true, $triple1->equal($triple1));
+
+        $triple2 = new \Saft\StoreInterface\Store\Triple('<a1>', '<b1>', '<c1>');
+        $this->assertEquals(true, $triple1->equal($triple2));
+
+        $triple3 = new \Saft\StoreInterface\Store\Triple('a3', 'b3', 'c3');
+        $this->assertEquals(false, $triple1->equal($triple3));
+    }
 }

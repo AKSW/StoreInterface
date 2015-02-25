@@ -16,4 +16,21 @@ class Triple extends Statement
     {
         return null;
     }
+
+    public function getSparqlFormat($x, $s = null)
+    {
+        if (is_null($x) || $x == '') {
+            if (is_null($s)) {
+                return '?x';
+            } else {
+                return '?' . $s ;
+            }
+        } else {
+            if (is_int($x) || $x[0] == '<' || $x[0] == '?' || $x[0] == '"') {
+                return $x;
+            } else {
+                return '<' . $x . '>';
+            }
+        }
+    }
 }
