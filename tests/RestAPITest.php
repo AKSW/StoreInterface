@@ -20,7 +20,7 @@ class RestAPITest extends \PHPUnit_Framework_TestCase
         $_POST['predicate'] = "b1";
         $_POST['object'] = "c1";
         $_SERVER['HTTP_ORIGIN'] = "servername";
-        $store = new \Saft\StoreInterface\ExampleSparqlTripleStore();
+        $store = new \Saft\StoreInterface\Store\ExampleSparqlTripleStore();
         try {
             $API = new \Saft\StoreInterface\Rest\RestApi(
                 $_POST['request'],

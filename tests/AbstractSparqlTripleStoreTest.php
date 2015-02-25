@@ -7,14 +7,14 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->store = $this -> getMockForAbstractClass(
-            '\Saft\StoreInterface\AbstractSparqlTripleStore'
+            '\Saft\StoreInterface\Store\AbstractSparqlTripleStore'
         );
     }
 
     public function testCreateStatements()
     {
-        $statement1 = new \Saft\StoreInterface\Triple('a1', 'b1', 'c1');
-        $statement2 = new \Saft\StoreInterface\Quad('a2', 'b2', 'c2', 'd2');
+        $statement1 = new \Saft\StoreInterface\Store\Triple('a1', 'b1', 'c1');
+        $statement2 = new \Saft\StoreInterface\Store\Quad('a2', 'b2', 'c2', 'd2');
 
         $statements = array($statement1, $statement2);
 
@@ -23,7 +23,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateStatement()
     {
-        $statement = new \Saft\StoreInterface\Triple('a1', 'b1', 'c1');
+        $statement = new \Saft\StoreInterface\Store\Triple('a1', 'b1', 'c1');
 
         return $statement;
     }
@@ -84,9 +84,9 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
     public function testMultipleVariatonOfStatements()
     {
         //object is a number
-        $statement1 = new \Saft\StoreInterface\Triple('a1', 'b1', 42);
+        $statement1 = new \Saft\StoreInterface\Store\Triple('a1', 'b1', 42);
         //object is a literal
-        $statement2 = new \Saft\StoreInterface\Triple('a2', 'b2', '"John"');
+        $statement2 = new \Saft\StoreInterface\Store\Triple('a2', 'b2', '"John"');
         $statements = array($statement1, $statement2);
 
         $query = $this->store -> addStatements($statements);
@@ -97,7 +97,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
             ."}");
 
         //use the given graphUri
-        $statement3 = new \Saft\StoreInterface\Triple('a3', 'b3', 'c3');
+        $statement3 = new \Saft\StoreInterface\Store\Triple('a3', 'b3', 'c3');
         $statements = array($statement3);
         $query = $this->store -> addStatements($statements, 'graph');
         $this->assertEquals($query, "Insert DATA\n"

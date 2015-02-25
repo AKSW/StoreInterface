@@ -1,5 +1,5 @@
 <?php
-namespace Saft\StoreInterface;
+namespace Saft\StoreInterface\Store;
 
 /**
  * representation of the rdf-triple

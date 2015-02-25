@@ -1,5 +1,5 @@
 <?php
-namespace Saft\StoreInterface;
+namespace Saft\StoreInterface\Store;
 
 /**
  * sequence of (subject, predicate, object) terms forming an RDF triple

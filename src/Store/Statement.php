@@ -1,5 +1,5 @@
 <?php
-namespace Saft\StoreInterface;
+namespace Saft\StoreInterface\Store;
 
 /**
  * Abstract class for RDF- triples and quads.
