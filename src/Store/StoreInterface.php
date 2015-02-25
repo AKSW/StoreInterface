@@ -33,7 +33,7 @@ interface StoreInterface
     *
     * @return boolean, true if function is correctly performed
     */
-    public function deleteMatchingStatements($Statement, $graphUri = null, array $options = array());
+    public function deleteMatchingStatements(Statement $Statement, $graphUri = null, array $options = array());
 
     /**
     * This method returns all those Statements in the given graph which match the statement pattern.
@@ -49,7 +49,7 @@ interface StoreInterface
     *
     * @return array with matching Statements
     */
-    public function getMatchingStatements($Statement, $graphUri = null, array $options = array());
+    public function getMatchingStatements(Statement $Statement, $graphUri = null, array $options = array());
     
     /**
     * Returns true or false depending on whether or not the statements pattern has any matches in the given graph.
@@ -61,7 +61,7 @@ interface StoreInterface
     *
     * @return boolean, true if at least one Statement match
     */
-    public function hasMatchingStatement($Statement, $graphUri = null, array $options = array());
+    public function hasMatchingStatement(Statement $Statement, $graphUri = null, array $options = array());
 
     /**
      * Get feature-Information and description of Store.

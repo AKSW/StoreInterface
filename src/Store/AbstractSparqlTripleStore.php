@@ -24,7 +24,7 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
         }
     }
 
-    public function deleteMatchingStatements($Statement, $graphUri = null, array $options = array())
+    public function deleteMatchingStatements(Statement $Statement, $graphUri = null, array $options = array())
     {
         $query = "Delete DATA\n"
             . "{\n";
@@ -37,7 +37,7 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
         }
     }
 
-    public function getMatchingStatements($Statement, $graphUri = null, array $options = array())
+    public function getMatchingStatements(Statement $Statement, $graphUri = null, array $options = array())
     {
         //TODO Filter Select
         $query = "Select * \n"
@@ -52,7 +52,7 @@ abstract class AbstractSparqlTripleStore implements StoreInterface
         }
     }
     
-    public function hasMatchingStatement($Statement, $graphUri = null, array $options = array())
+    public function hasMatchingStatement(Statement $Statement, $graphUri = null, array $options = array())
     {
         $query = "ASK\n"
             . "{\n";

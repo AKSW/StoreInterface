@@ -90,7 +90,7 @@ abstract class Statement
      * @param  Statement $Statement another Statement
      * @return boolean              true if Statements are equal
      */
-    public function equal($Statement)
+    public function equal(Statement $Statement)
     {
         if ($this->getSparqlFormat($this->getSubject()) == $Statement->getSparqlFormat($Statement->getSubject())
             && $this->getSparqlFormat($this->getPredicate()) == $Statement->getSparqlFormat($Statement->getPredicate())
