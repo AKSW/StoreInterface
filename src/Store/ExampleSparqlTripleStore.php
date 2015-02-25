@@ -9,28 +9,12 @@ class ExampleSparqlTripleStore extends AbstractSparqlTripleStore
         echo "test";
     }
 
-
-    public function getDefaultGraph()
+    public function getStoreDescription()
     {
-
+        
     }
 
-    public function whatKindOfInstanz()
-    {
-
-    }
-
-    public function getStoreInformation()
-    {
-
-    }
-
-    public function featureSupported()
-    {
-
-    }
-
-    public function sparqlQuery($query)
+    public function query($query, array $options = array())
     {
 
     }

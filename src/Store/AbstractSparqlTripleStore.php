@@ -3,12 +3,12 @@ namespace Saft\StoreInterface;
 
 abstract class AbstractSparqlTripleStore extends AbstractStore
 {
-    public function addMultipleStatements(array $Statements, $graphUri = null, array $options = array())
+    public function addStatements($Statements, $graphUri = null, array $options = array())
     {
         foreach ($Statements as &$st) {
             if ($st instanceof Statement) {
                 if (!$st->isConcrete()) {
-                    //TODO Exception
+                    throw new \Exception("at least one Statement is not concrete");
                 }
             }
         }
@@ -24,12 +24,12 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         }
     }
 
-    public function deleteMatchingStatements(array $Statements, $graphUri = null)
+    public function deleteMatchingStatements($Statement, $graphUri = null, array $options = array())
     {
         $query = "Delete DATA\n"
             . "{\n";
 
-        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
+        $query = $query . $this->sparqlStatementFormat(array($Statement), $graphUri) . "}";
         if (is_callable($this, 'sparqlQuery')) {
             return $this -> sparqlQuery($query);
         } else {
@@ -37,14 +37,14 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         }
     }
 
-    public function getMatchingStatements(array $Statements, $graphUri = null, array $options = array())
+    public function getMatchingStatements($Statement, $graphUri = null, array $options = array())
     {
         //TODO Filter Select
         $query = "Select * \n"
             ."WHERE\n"
             . "{\n";
 
-        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
+        $query = $query . $this->sparqlStatementFormat(array($Statement), $graphUri) . "}";
         if (is_callable($this, 'sparqlQuery')) {
             return $this -> sparqlQuery($query);
         } else {
@@ -52,23 +52,17 @@ abstract class AbstractSparqlTripleStore extends AbstractStore
         }
     }
     
-    public function hasMatchingStatement(array $Statements, $graphUri = null)
+    public function hasMatchingStatement($Statement, $graphUri = null, array $options = array())
     {
         $query = "ASK\n"
             . "{\n";
 
-        $query = $query . $this->sparqlStatementFormat($Statements, $graphUri) . "}";
+        $query = $query . $this->sparqlStatementFormat(array($Statement), $graphUri) . "}";
         if (is_callable($this, 'sparqlQuery')) {
             return $this -> sparqlQuery($query);
         } else {
             return $query;
         }
-    }
-
-    public function whatKindOfInstanz()
-    {
-        //@TODO
-        return get_class($this);
     }
 
     /**

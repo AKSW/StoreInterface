@@ -11,7 +11,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreateStatement()
+    public function testCreateStatements()
     {
         $statement1 = new \Saft\StoreInterface\Triple('a1', 'b1', 'c1');
         $statement2 = new \Saft\StoreInterface\Quad('a2', 'b2', 'c2', 'd2');
@@ -21,26 +21,32 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
         return $statements;
     }
 
-    /**
-     * @depends testCreateStatement
-     */
-    public function testGetMatchingStatements(array $statements)
+    public function testCreateStatement()
     {
-        $query = $this->store -> getMatchingStatements($statements);
-        $this->assertEquals($query, "Select * \n"
-            ."WHERE\n"
-            . "{\n"
-            . "<a1> <b1> <c1>.\n"
-            ."Graph <d2> {<a2> <b2> <c2>.}\n"
-            ."}");
+        $statement = new \Saft\StoreInterface\Triple('a1', 'b1', 'c1');
+
+        return $statement;
     }
 
     /**
      * @depends testCreateStatement
      */
-    public function testAddMultipleStatements(array $statements)
+    public function testGetMatchingStatements($statement)
     {
-        $query = $this->store -> addMultipleStatements($statements);
+        $query = $this->store -> getMatchingStatements($statement);
+        $this->assertEquals($query, "Select * \n"
+            ."WHERE\n"
+            . "{\n"
+            . "<a1> <b1> <c1>.\n"
+            ."}");
+    }
+
+    /**
+     * @depends testCreateStatements
+     */
+    public function testAddStatements(array $statements)
+    {
+        $query = $this->store -> addStatements($statements);
         //echo $query;
         $this->assertEquals($query, "Insert DATA\n"
             . "{\n"
@@ -52,28 +58,26 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testCreateStatement
      */
-    public function testDeleteMatchingStatements(array $statements)
+    public function testDeleteMatchingStatements($statement)
     {
-        $query = $this->store -> deleteMatchingStatements($statements);
+        $query = $this->store -> deleteMatchingStatements($statement);
         //echo $query;
         $this->assertEquals($query, "Delete DATA\n"
             . "{\n"
             . "<a1> <b1> <c1>.\n"
-            ."Graph <d2> {<a2> <b2> <c2>.}\n"
             ."}");
     }
 
     /**
      * @depends testCreateStatement
      */
-    public function testhasMatchingStatement(array $statements)
+    public function testhasMatchingStatement($statement)
     {
-        $query = $this->store -> hasMatchingStatement($statements);
+        $query = $this->store -> hasMatchingStatement($statement);
         //echo $query;
         $this->assertEquals($query, "ASK\n"
             . "{\n"
             . "<a1> <b1> <c1>.\n"
-            ."Graph <d2> {<a2> <b2> <c2>.}\n"
             ."}");
     }
 
@@ -85,7 +89,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
         $statement2 = new \Saft\StoreInterface\Triple('a2', 'b2', '"John"');
         $statements = array($statement1, $statement2);
 
-        $query = $this->store -> addMultipleStatements($statements);
+        $query = $this->store -> addStatements($statements);
         $this->assertEquals($query, "Insert DATA\n"
             . "{\n"
             . "<a1> <b1> 42.\n"
@@ -95,7 +99,7 @@ class AbstractSparqlTripleStoreTest extends \PHPUnit_Framework_TestCase
         //use the given graphUri
         $statement3 = new \Saft\StoreInterface\Triple('a3', 'b3', 'c3');
         $statements = array($statement3);
-        $query = $this->store -> addMultipleStatements($statements, 'graph');
+        $query = $this->store -> addStatements($statements, 'graph');
         $this->assertEquals($query, "Insert DATA\n"
             . "{\n"
             ."Graph <graph> {<a3> <b3> <c3>.}\n"

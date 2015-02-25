@@ -3,13 +3,7 @@ namespace Saft\StoreInterface;
 
 abstract class AbstractPatternFragmentTripleStore extends AbstractStore
 {
-    public function whatKindOfInstanz()
-    {
-        //@TODO
-        return get_class($this);
-    }
-
-    public function sparqlQuery($query)
+    public function query($query, array $options = array())
     {
         //@TODO
         if (stristr($a, 'select') || stristr($a, 'construct')) {

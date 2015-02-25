@@ -10,20 +10,30 @@ abstract class AbstractStore
     abstract public function getAvailableGraphs();
 
     /**
-    * Adds multiple Statements to graph. If Statement is a Triple graph specified by $graphUri.
+    * Adds multiple Statements to (default-) graph.
     *
-    * @param array  $Statements
+    * @param mixed array|StatementsIterator $Statements
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
+    * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
+    * Graph of the Quad will be ignore.
+    * @param array $options submitter additional instructions
+    *
+    * @return boolean, true if function is correctly performed
     */
-    abstract public function addMultipleStatements(array $Statements, $graphUri = null, array $options = array());
+    abstract public function addStatements($Statements, $graphUri = null, array $options = array());
 
     /**
-    * Removes all given Statements from a graph. If Statement is a Triple graph specified by $graphUri.
+    * Removes all Statements from a (default-) graph wich match with given $Statement.
     *
-    * @param array $Statements
+    * @param Statement $Statement
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
+    * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
+    * Graph of the Quad will be ignore.
+    * @param array $options submitter additional instructions
+    *
+    * @return boolean, true if function is correctly performed
     */
-    abstract public function deleteMatchingStatements(array $Statements, $graphUri = null);
+    abstract public function deleteMatchingStatements($Statement, $graphUri = null, array $options = array());
 
     /**
     * This method returns all those Statements in the given graph which match the statement pattern.
@@ -31,46 +41,46 @@ abstract class AbstractStore
     * - calling Triple.subject.equals with $Statement.subject returns true, or the $Statement.subject argument is null or empty, AND
     * - calling Triple.predicate.equals with $Statement.predicate returns true, or the $Statement.predicate argument is null or empty, AND
     * - calling Triple.object.equals with $Statement.object returns true, or the $Statement.object argument is null or empty
-    * @param $Statements
+    * @param Statement $Statement
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
+    * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
+    * Graph of the Quad will be ignore.
+    * @param array $options submitter additional instructions
     *
-    * @return array Statements
+    * @return array with matching Statements
     */
-    abstract public function getMatchingStatements(array $Statements, $graphUri = null, array $options = array());
+    abstract public function getMatchingStatements($Statement, $graphUri = null, array $options = array());
     
     /**
     * Returns true or false depending on whether or not the statements pattern has any matches in the given graph.
-    * @param array $Statements
+    * @param Statement $Statement
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
+    * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
+    * Graph of the Quad will be ignore.
+    * @param array $options submitter additional instructions
     *
-    * @return boolean
+    * @return boolean, true if at least one Statement match
     */
-    abstract public function hasMatchingStatement(array $Statements, $graphUri = null);
+    abstract public function hasMatchingStatement($Statement, $graphUri = null, array $options = array());
 
     /**
-     * returns which form the instance of the store is. e.g. Sparql-Store or PatternFragment-Store
+     * Get feature-Information and description of Store.
+     * @return array String
      */
-    abstract public function whatKindOfInstanz();
-
-    abstract public function getStoreInformation();
+    abstract public function getStoreDescription();
 
     /**
-    * Retrun wich sparql-feature are supported.
-    * @return string with with permitted Feature's: Select, Insert,
-    * Ask, Delete.
-    */
-    abstract public function featureSupported();
-
-    /**
+    * Use SPARQL to interact with store.
     * @param string $query A string containing a sparql query
     * -Select: Returns all the variables bound in a query pattern match.
     * -Insert:
     * -Ask: returns true or false depending on whether or not the query pattern has any matches in the dataset.
     * -Delete:
+    * @param array $options submitter additional instructions
     *
     * @throws Throws an exception if query is no string.
     *
     * @return mixed Returns a result depending on the query
     */
-    abstract public function sparqlQuery($query);
+    abstract public function query($query, array $options = array());
 }
