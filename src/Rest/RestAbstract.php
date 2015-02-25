@@ -40,7 +40,7 @@ abstract class RestAbstract
      * @param [type]                             $request [description]
      * @param \Saft\StoreInterface\AbstractStore $store   concrete Store.
      */
-    public function __construct($request, \Saft\StoreInterface\AbstractStore $store)
+    public function __construct($request, \Saft\StoreInterface\StoreInterface $store)
     {
         // allow requests from any origin to be processed by this page
         header("Access-Control-Allow-Orgin: *");

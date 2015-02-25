@@ -1,13 +1,13 @@
 <?php
 namespace Saft\StoreInterface;
 
-abstract class AbstractStore
+interface StoreInterface
 {
     /**
     * Returns array with graphUri's which are available.
     * @return array, where the key is the URI of a graph.
     */
-    abstract public function getAvailableGraphs();
+    public function getAvailableGraphs();
 
     /**
     * Adds multiple Statements to (default-) graph.
@@ -20,7 +20,7 @@ abstract class AbstractStore
     *
     * @return boolean, true if function is correctly performed
     */
-    abstract public function addStatements($Statements, $graphUri = null, array $options = array());
+    public function addStatements($Statements, $graphUri = null, array $options = array());
 
     /**
     * Removes all Statements from a (default-) graph wich match with given $Statement.
@@ -33,7 +33,7 @@ abstract class AbstractStore
     *
     * @return boolean, true if function is correctly performed
     */
-    abstract public function deleteMatchingStatements($Statement, $graphUri = null, array $options = array());
+    public function deleteMatchingStatements($Statement, $graphUri = null, array $options = array());
 
     /**
     * This method returns all those Statements in the given graph which match the statement pattern.
@@ -49,7 +49,7 @@ abstract class AbstractStore
     *
     * @return array with matching Statements
     */
-    abstract public function getMatchingStatements($Statement, $graphUri = null, array $options = array());
+    public function getMatchingStatements($Statement, $graphUri = null, array $options = array());
     
     /**
     * Returns true or false depending on whether or not the statements pattern has any matches in the given graph.
@@ -61,13 +61,13 @@ abstract class AbstractStore
     *
     * @return boolean, true if at least one Statement match
     */
-    abstract public function hasMatchingStatement($Statement, $graphUri = null, array $options = array());
+    public function hasMatchingStatement($Statement, $graphUri = null, array $options = array());
 
     /**
      * Get feature-Information and description of Store.
      * @return array String
      */
-    abstract public function getStoreDescription();
+    public function getStoreDescription();
 
     /**
     * Use SPARQL to interact with store.
@@ -82,5 +82,5 @@ abstract class AbstractStore
     *
     * @return mixed Returns a result depending on the query
     */
-    abstract public function query($query, array $options = array());
+    public function query($query, array $options = array());
 }

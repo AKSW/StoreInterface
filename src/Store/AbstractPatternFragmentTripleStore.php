@@ -1,7 +1,7 @@
 <?php
 namespace Saft\StoreInterface;
 
-abstract class AbstractPatternFragmentTripleStore extends AbstractStore
+abstract class AbstractPatternFragmentTripleStore implements StoreInterface
 {
     public function query($query, array $options = array())
     {

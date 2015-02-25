@@ -1,7 +1,7 @@
 <?php
 namespace Saft\StoreInterface;
 
-abstract class AbstractSparqlTripleStore extends AbstractStore
+abstract class AbstractSparqlTripleStore implements StoreInterface
 {
     public function addStatements($Statements, $graphUri = null, array $options = array())
     {
