@@ -1,6 +1,9 @@
 <?php
 namespace Saft\StoreInterface\Store;
 
+/**
+ * Declaration of functions that a Store must have.
+ */
 interface StoreInterface
 {
     /**
@@ -12,10 +15,10 @@ interface StoreInterface
     /**
     * Adds multiple Statements to (default-) graph.
     *
-    * @param mixed array|StatementsIterator $Statements
+    * @param mixed array|StatementsIterator $Statements. Statements must be 'concret-' and not 'pattern-Statements'.
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
     * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
-    * Graph of the Quad will be ignore.
+    * Graph-identifier of the Quad-Statement will be ignore.
     * @param array $options submitter additional instructions
     *
     * @return boolean, true if function is correctly performed
@@ -28,7 +31,7 @@ interface StoreInterface
     * @param Statement $Statement
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
     * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
-    * Graph of the Quad will be ignore.
+    * Graph-identifier of the Quad-Statement will be ignore.
     * @param array $options submitter additional instructions
     *
     * @return boolean, true if function is correctly performed
@@ -44,7 +47,7 @@ interface StoreInterface
     * @param Statement $Statement
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
     * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
-    * Graph of the Quad will be ignore.
+    * Graph-identifier of the Quad-Statement will be ignore.
     * @param array $options submitter additional instructions
     *
     * @return array with matching Statements
@@ -56,7 +59,7 @@ interface StoreInterface
     * @param Statement $Statement
     * @param string $graphUri, use if Statement is a triple and to using another graph when the default.
     * $graphUri has priority over Statement.getGraph(), so if $graphUri != null and Statement is a Quad,
-    * Graph of the Quad will be ignore.
+    * Graph-identifier of the Quad-Statement will be ignore.
     * @param array $options submitter additional instructions
     *
     * @return boolean, true if at least one Statement match

@@ -1,6 +1,11 @@
 <?php
 namespace Saft\StoreInterface\Store;
 
+/**
+ * Predefined sparql Store. All Triple methods reroute to the query-method.
+ * In the specific sparql-Store those no longer have to be implemented,
+ * but only the Query method / SPARQL interpreter itself.
+ */
 abstract class AbstractSparqlTripleStore implements StoreInterface
 {
     public function addStatements($Statements, $graphUri = null, array $options = array())

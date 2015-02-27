@@ -1,6 +1,10 @@
 <?php
 namespace Saft\StoreInterface\Store;
 
+/**
+ * Predefined Pattern-statement Store. The Triple-methods need to be implemented in the specific statement-store.
+ * The query method is defined in the abstract class and reroute to the triple-methods.
+ */
 abstract class AbstractPatternFragmentTripleStore implements StoreInterface
 {
     public function query($query, array $options = array())
